@@ -16,17 +16,17 @@ type Base struct {
 // User represents a user in the system
 type User struct {
 	Base
-	Username          string     `json:"username" db:"username"`
-	Email             string     `json:"email" db:"email"`
-	PasswordHash      string     `json:"-" db:"password_hash"`
-	FirstName         *string    `json:"first_name,omitempty" db:"first_name"`
-	LastName          *string    `json:"last_name,omitempty" db:"last_name"`
-	AvatarURL         *string    `json:"avatar_url,omitempty" db:"avatar_url"`
-	ProfileData       JSONB      `json:"profile_data,omitempty" db:"profile_data"`
-	AgeGroup          string     `json:"age_group" db:"age_group"`
-	Points            int        `json:"points" db:"points"`
-	ExperienceLevel   int       `json:"experience_level" db:"experience_level"`
-	TotalStudyTimeMin int        `json:"total_study_time_min" db:"total_study_time_min"`
+	Username          string  `json:"username" db:"username"`
+	Email             string  `json:"email" db:"email"`
+	PasswordHash      string  `json:"-" db:"password_hash"`
+	FirstName         *string `json:"first_name,omitempty" db:"first_name"`
+	LastName          *string `json:"last_name,omitempty" db:"last_name"`
+	AvatarURL         *string `json:"avatar_url,omitempty" db:"avatar_url"`
+	ProfileData       JSONB   `json:"profile_data,omitempty" db:"profile_data"`
+	AgeGroup          string  `json:"age_group" db:"age_group"`
+	Points            int     `json:"points" db:"points"`
+	ExperienceLevel   int     `json:"experience_level" db:"experience_level"`
+	TotalStudyTimeMin int     `json:"total_study_time_min" db:"total_study_time_min"`
 
 	// Relationships
 	Settings        []UserSetting         `json:"settings,omitempty"`
@@ -170,26 +170,26 @@ type ResourceContent struct {
 	ResourceType     string     `json:"resource_type" db:"resource_type"`
 	URL              string     `json:"url" db:"url"`
 	CreatedBy        *uuid.UUID `json:"created_by,omitempty" db:"created_by"`
-	ResourceMetadata JSONB     `json:"resource_metadata,omitempty" db:"resource_metadata"`
+	ResourceMetadata JSONB      `json:"resource_metadata,omitempty" db:"resource_metadata"`
 }
 
 // Progress tracks user progress in a course
 type Progress struct {
 	Base
-	UserID             uuid.UUID `json:"user_id" db:"user_id"`
-	CourseID           uuid.UUID `json:"course_id" db:"course_id"`
+	UserID             uuid.UUID  `json:"user_id" db:"user_id"`
+	CourseID           uuid.UUID  `json:"course_id" db:"course_id"`
 	CurrentLessonID    *uuid.UUID `json:"current_lesson_id,omitempty" db:"current_lesson_id"`
-	TotalPointsEarned  int       `json:"total_points_earned" db:"total_points_earned"`
-	TimeSpentMin       int       `json:"time_spent_min" db:"time_spent_min"`
-	ProgressPercentage float64   `json:"progress_percentage" db:"progress_percentage"`
-	ProgressData       JSONB     `json:"progress_data" db:"progress_data"`
-	LastAccessed       time.Time `json:"last_accessed" db:"last_accessed"`
-	IsCompleted        bool      `json:"is_completed" db:"is_completed"`
+	TotalPointsEarned  int        `json:"total_points_earned" db:"total_points_earned"`
+	TimeSpentMin       int        `json:"time_spent_min" db:"time_spent_min"`
+	ProgressPercentage float64    `json:"progress_percentage" db:"progress_percentage"`
+	ProgressData       JSONB      `json:"progress_data" db:"progress_data"`
+	LastAccessed       time.Time  `json:"last_accessed" db:"last_accessed"`
+	IsCompleted        bool       `json:"is_completed" db:"is_completed"`
 
 	// Relationships
-	User          *User     `json:"user,omitempty"`
-	Course        *Course   `json:"course,omitempty"`
-	CurrentLesson *Lesson   `json:"current_lesson,omitempty"`
+	User          *User          `json:"user,omitempty"`
+	Course        *Course        `json:"course,omitempty"`
+	CurrentLesson *Lesson        `json:"current_lesson,omitempty"`
 	ContentStates []ContentState `json:"content_states,omitempty"`
 }
 
@@ -216,12 +216,12 @@ type ContentState struct {
 	ProgressID   uuid.UUID `json:"progress_id" db:"progress_id"`
 	ContentID    uuid.UUID `json:"content_id" db:"content_id"`
 	StateType    string    `json:"state_type" db:"state_type"`
-	NumericValue *float64 `json:"numeric_value,omitempty" db:"numeric_value"`
+	NumericValue *float64  `json:"numeric_value,omitempty" db:"numeric_value"`
 	JSONValue    JSONB     `json:"json_value,omitempty" db:"json_value"`
 	TextValue    *string   `json:"text_value,omitempty" db:"text_value"`
 
 	// Relationships
-	User     *User    `json:"user,omitempty"`
+	User     *User     `json:"user,omitempty"`
 	Progress *Progress `json:"progress,omitempty"`
 	Content  *Content  `json:"content,omitempty"`
 }
