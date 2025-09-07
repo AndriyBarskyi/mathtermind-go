@@ -5,16 +5,19 @@ import (
 
 	"github.com/go-chi/chi/v5"
 	"github.com/go-chi/cors"
+	"github.com/jackc/pgx/v5/pgxpool"
+
+	apperrors "mathtermind-go/internal/errors"
 	"mathtermind-go/internal/middleware"
 )
 
-func NewRouter() *chi.Mux {
+func NewRouter(pool *pgxpool.Pool) *chi.Mux {
 	r := chi.NewRouter()
 
 	middleware.AddMiddleware(r)
 
 	r.Use(cors.Handler(cors.Options{
-		AllowedOrigins:   []string{"*"}, // In production, replace with your frontend URL
+		AllowedOrigins:   []string{"*"}, // TODO: replace with your frontend URL
 		AllowedMethods:   []string{"GET", "POST", "PUT", "DELETE", "OPTIONS"},
 		AllowedHeaders:   []string{"Accept", "Authorization", "Content-Type"},
 		AllowCredentials: true,
@@ -27,10 +30,8 @@ func NewRouter() *chi.Mux {
 	})
 
 	r.Route("/api/v1", func(r chi.Router) {
-		// Add your API routes here
-		// Example:
-		// r.Get("/users", handleGetUsers)
-		// r.Post("/users", handleCreateUser)
+		// Courses
+		r.Method(http.MethodGet, "/courses", apperrors.Middleware(ListCoursesHandler(pool)))
 	})
 
 	return r

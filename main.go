@@ -11,6 +11,8 @@ import (
 	"os/signal"
 	"syscall"
 	"time"
+
+	dbconn "mathtermind-go/internal/db"
 )
 
 // @title           Mathtermind API
@@ -30,7 +32,21 @@ func main() {
 		os.Exit(1)
 	}
 
-	router := api.NewRouter()
+	if cfg.Database.URL == "" {
+		logger.Error("DATABASE_URL is not set")
+		os.Exit(1)
+	}
+
+	// Initialize database connection pool
+	ctx := context.Background()
+	pool, err := dbconn.Connect(ctx, cfg.Database.URL)
+	if err != nil {
+		logger.Error("Failed to connect to database", "error", err)
+		os.Exit(1)
+	}
+	defer pool.Close()
+
+	router := api.NewRouter(pool)
 
 	server := &http.Server{
 		Addr:         ":" + cfg.Server.Port,

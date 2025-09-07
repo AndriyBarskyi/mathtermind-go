@@ -15,17 +15,19 @@ type Config struct {
 	Server struct {
 		Port string `env:"SERVER_PORT" default:"8080"`
 	}
+	Database struct {
+		URL string `env:"DATABASE_URL"`
+	}
 }
 
 // Load loads the configuration from environment variables
 func Load() (*Config, error) {
 	var cfg Config
 
-	if err := godotenv.Load(); err != nil {
-		return nil, err
-	}
+	_ = godotenv.Load()
 
 	cfg.Server.Port = getEnv("SERVER_PORT", "8080")
+	cfg.Database.URL = getEnv("DATABASE_URL", "")
 
 	if cfg.Server.Port == "" {
 		return nil, fmt.Errorf("server port cannot be empty")
